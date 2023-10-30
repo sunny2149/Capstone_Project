@@ -1,0 +1,76 @@
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
+
+import com.natwest.empauth.controller.EmployeeController;
+import com.natwest.empauth.model.Employee;
+import com.natwest.empauth.service.IEmployeeService;
+
+@ExtendWith(MockitoExtension.class)
+public class EmployeeControllerTest {
+
+    @InjectMocks
+    private EmployeeController employeeController;
+
+    @Mock
+    private IEmployeeService employeeService;
+
+    @Test
+    public void testGetAllUserDataRequestHandler() {
+        List<Employee> mockEmployeeList = new ArrayList<>();
+        Employee employee1 = new Employee();
+        employee1.setEmployeeId(1);
+        employee1.setFirstName("John");
+        Employee employee2 = new Employee();
+        employee2.setEmployeeId(2);
+        employee2.setFirstName("Jane");
+        mockEmployeeList.add(employee1);
+        mockEmployeeList.add(employee2);
+
+        when(employeeService.getAllEmployees()).thenReturn(mockEmployeeList);
+
+        ResponseEntity<?> responseEntity = employeeController.getAllUserDataRequestHandler();
+
+        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals(mockEmployeeList, responseEntity.getBody());
+    }
+
+    @Test
+    public void testUpdateUserDataRequestHandler() {
+        Employee employee = new Employee();
+        employee.setEmployeeId(1);
+        employee.setFirstName("John");
+        employee.setPhoneNo("1234567890");
+        employee.setAddress("123 Street, City");
+
+        when(employeeService.updateEmployee(any(), anyInt())).thenReturn(employee);
+
+        ResponseEntity<?> responseEntity = employeeController.updateUserDataRequestHandler(employee, 1);
+
+        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals("Data added successfully !!!" + employee, responseEntity.getBody());
+    }
+
+    @Test
+    public void testDeleteUserDataRequestHandler() {
+        int employeeId = 1;
+
+        when(employeeService.deleteEmployeeById(anyInt())).thenReturn(true);
+
+        ResponseEntity<?> responseEntity = employeeController.deleteUserDataRequestHandler(employeeId);
+
+        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals("Data deleted successfully !!!", responseEntity.getBody());
+    }
+}

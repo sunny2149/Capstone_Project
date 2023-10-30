@@ -1,0 +1,5 @@
+package com.natwest.empauth;
+
+public class EmployeeControllerTest {
+
+}

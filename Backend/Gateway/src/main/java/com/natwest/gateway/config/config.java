@@ -1,0 +1,22 @@
+package com.natwest.gateway.config;
+
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class config {
+	
+	@Bean
+	public RouteLocator configureRoute(RouteLocatorBuilder builder)
+	{
+		return builder.routes()
+				.route("EmployeeAuthRouteId", r -> r.path("/auth/v1/**").uri("http://localhost:8083"))
+				.route("HrAuthRouteId",r -> r.path("/hauth/v1/**").uri("http://localhost:8084"))
+				.route("ResignRouteId",r -> r.path("/rapi/v1/**").uri("http://localhost:8085"))
+				.route("ExEmployeeRouteId",r -> r.path("/eauth/v1/**").uri("http://localhost:8086"))
+				.build();
+	}
+
+}

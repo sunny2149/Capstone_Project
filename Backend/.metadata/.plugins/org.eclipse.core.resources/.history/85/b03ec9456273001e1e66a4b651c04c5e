@@ -1,0 +1,9 @@
+package com.natwest.exemployees.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.natwest.exemployees.model.ExEmployees;
+
+public interface IExEmployeesRepository extends JpaRepository<ExEmployees, Integer> {
+
+}

@@ -1,0 +1,54 @@
+package com.natwest.empauth;
+
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.natwest.empauth.controller.EmployeeController;
+import com.natwest.empauth.model.Employee;
+import com.natwest.empauth.service.IEmployeeService;
+
+@SpringBootTest
+public class EmployeeControllerTest {
+
+    @InjectMocks
+    private EmployeeController employeeController;
+
+    @Mock
+    private IEmployeeService employeeService;
+    
+    @Test
+    public void testUpdateEmployeeData() throws Exception {
+        Employee mockEmployee = new Employee();
+        mockEmployee.setEmployeeId(1);
+        mockEmployee.setFirstName("John");
+        mockEmployee.setPhoneNo("123-456-7890");
+        mockEmployee.setAddress("123 Main St");
+
+        when(employeeService.updateEmployee(mockEmployee, 1)).thenReturn(mockEmployee);
+
+        ResponseEntity<?> response = employeeController.updateUserDataRequestHandler(mockEmployee, 1);
+
+        verify(employeeService, times(1)).updateEmployee(mockEmployee, 1);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    
+    @Test
+    public void testDeleteEmployeeData() throws Exception {
+        when(employeeService.deleteEmployeeById(1)).thenReturn(true);
+
+        ResponseEntity<?> response = employeeController.deleteUserDataRequestHandler(1);
+
+        verify(employeeService, times(1)).deleteEmployeeById(1);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+}
+

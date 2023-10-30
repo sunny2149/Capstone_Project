@@ -1,0 +1,56 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john.doe@example.com",
+        "dateOfBirth": "1990-01-15",
+        "phoneNo": "123-456-7890",
+        "dateOfJoining": "2021-05-20",
+        "address": "123 Main Street, City",
+        "department": "HR",
+        "title": "HR Manager",
+        "password": "Password@123"
+      },
+      {
+        "id": 2,
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "email": "jane.smith@example.com",
+        "dateOfBirth": "1985-08-30",
+        "phoneNo": "987-654-3210",
+        "dateOfJoining": "2020-11-10",
+        "address": "456 Elm Street, Town",
+        "department": "IT",
+        "title": "Software Engineer",
+        "password": "Securepass@789"
+      },
+      {
+        "id": 3,
+        "firstName": "Alice",
+        "lastName": "Johnson",
+        "email": "alice.johnson@example.com",
+        "dateOfBirth": "1995-03-05",
+        "phoneNo": "555-123-4567",
+        "dateOfJoining": "2022-02-15",
+        "address": "789 Oak Avenue, Village",
+        "department": "Finance",
+        "title": "Financial Analyst",
+        "password": "Password@456"
+      },
+      {
+        "id": 4,
+        "firstName": "Tim",
+        "lastName": "Kook",
+        "email": "timk@natwest.com",
+        "dateOfBirth": "1995-03-05",
+        "phoneNo": "333-123-4567",
+        "dateOfJoining": "2015-05-15",
+        "address": "11th Park Road",
+        "department": "IT",
+        "title": "Developer",
+        "password": "Secure@123"
+      }
+    ]
+  }

@@ -1,0 +1,86 @@
+package com.natwest.hrauth.controller;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+import com.natwest.hrauth.model.HR;
+import com.natwest.hrauth.service.IHrService;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.ServletException;
+
+@Tag(name = "hr", description = "hr ms")
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/hauth/v1")
+public class HrController {
+	
+	private Map<String, Object> map = new HashMap<>();
+	
+	@Autowired
+	private IHrService ihrservice;
+	
+	@GetMapping("/")
+	public String serverStarted() {
+		return "Authentication Server Started";
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> doLogin(@RequestBody HR hr)
+	{
+		try
+		{
+			HR hrObj = this.ihrservice.validateHrLogin(hr.getEmployeeId(), hr.getHrPassword());
+			String jwtToken = generateToken(hr.getEmployeeId(), hr.getHrPassword());
+			
+			map.put("message", "HR Successfully LoggedIn");
+			
+			map.put("token", jwtToken);
+			map.put("hrDetails", hrObj);
+		}
+		catch (Exception e) 
+		{
+				map.put("message", e.getMessage());
+				map.put("token", null);
+				return new ResponseEntity<>(map,HttpStatus.UNAUTHORIZED);
+		}
+		
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	private String generateToken(Integer employeeId, String hrPassword) throws ServletException {
+		String jwtToken = "";
+		if(employeeId == null || hrPassword == null) {
+			throw new ServletException("Please send valid employeeid and password");
+		}
+		//validate user aginst db
+		HR hr= ihrservice.validateHrLogin(employeeId, hrPassword);
+		if(hr == null)
+			throw new ServletException("Invalid Credentials");
+		else {
+			jwtToken = Jwts.builder()
+					        .setSubject(String.valueOf(employeeId))
+					        .setIssuedAt(new Date())
+					        .setExpiration(new Date(System.currentTimeMillis() + 3000000))
+					        .signWith(SignatureAlgorithm.HS256, "secret key")
+					        .compact();
+		}
+		return jwtToken;
+	}
+	
+
+}

@@ -1,0 +1,15 @@
+package com.natwest.exemployees.service;
+
+import java.util.List;
+
+import com.natwest.exemployees.model.ExEmployees;
+
+public class ExEmployeesService implements IExEmployeesService {
+
+	@Override
+	public List<ExEmployees> getAllExEmployees() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

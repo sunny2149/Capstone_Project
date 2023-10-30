@@ -1,0 +1,69 @@
+package com.natwest.resign.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.natwest.resign.model.Resignation;
+import com.natwest.resign.repository.IResignRepository;
+
+@Service
+public class ResignServiceImpl implements IResignService {
+	
+	@Autowired
+	private IResignRepository iresignrepo;
+
+	@Override
+	public Resignation saveUser(Resignation resignObj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Resignation updateUser(Resignation resignObj, int employeeId) {
+		// TODO Auto-generated method stub
+		Optional <Resignation> emp = this.iresignrepo.findById(employeeId);
+Resignation addresign = null;
+		
+		if(emp.isPresent())
+		{
+			Resignation empObj = emp.get();
+			empObj.setLastWorkingDay(resignObj.getLastWorkingDay());
+			empObj.setOnNotice(true);
+			addresign = this.iresignrepo.save(empObj);
+		}
+		
+		return addresign;
+		
+	}
+
+	@Override
+	public Resignation getUserById(int employeeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteUserById(int employeeId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Resignation> getAllUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Resignation> getAllEmployeesOnNotice() {
+		// TODO Auto-generated method stub
+		return this.iresignrepo.findAllOnNoticeEmployees();
+	}
+
+
+
+
+}

@@ -1,0 +1,6 @@
+package com.natwest.empauth.service;
+
+public interface IExEmployeesService {
+	
+
+}

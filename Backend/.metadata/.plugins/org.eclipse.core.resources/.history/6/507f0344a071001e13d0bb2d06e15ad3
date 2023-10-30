@@ -1,0 +1,61 @@
+package com.natwest.resign.model;
+
+import java.util.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Resignation {
+	@Id
+	private int employeeId;
+	private String fullName;
+    private String department;
+     
+    private Date lastWorkingDay;
+    private String reason;
+    private String comments;
+	public int getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+	public Date getLastWorkingDay() {
+		return lastWorkingDay;
+	}
+	public void setLastWorkingDay(Date lastWorkingDay) {
+		this.lastWorkingDay = lastWorkingDay;
+	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	public String getComments() {
+		return comments;
+	}
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+	@Override
+	public String toString() {
+		return "Resignation [employeeId=" + employeeId + ", fullName=" + fullName + ", department=" + department
+				+ ", lastWorkingDay=" + lastWorkingDay + ", reason=" + reason + ", comments=" + comments + "]";
+	}
+	
+    
+}

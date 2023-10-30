@@ -1,0 +1,65 @@
+package com.natwest.resign;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import com.natwest.resign.model.Resignation;
+import com.natwest.resign.repository.IResignRepository;
+import com.natwest.resign.service.ResignServiceImpl;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ResignationServiceTests {
+
+    @Mock
+    private IResignRepository iresignrepo;
+
+    @InjectMocks
+    private ResignServiceImpl resignService;
+
+    @Test
+    void testGetAllEmployeesOnNotice() {
+        List<Resignation> testResignations = new ArrayList<>();
+        Resignation resignation1 = new Resignation();
+        resignation1.setEmployeeId(1);
+        resignation1.setFirstName("John");
+        resignation1.setLastName("Doe");
+        resignation1.setOnNotice(true);
+        testResignations.add(resignation1);
+
+        when(iresignrepo.findAllOnNoticeEmployees()).thenReturn(testResignations);
+
+        List<Resignation> result = resignService.getAllEmployeesOnNotice();
+        assertEquals(1, result.size());
+        assertEquals("John", result.get(0).getFirstName());
+    }
+
+    @Test
+    void testUpdateUser() {
+        Resignation resignation = new Resignation();
+        resignation.setEmployeeId(1);
+        resignation.setLastWorkingDay(new Date(2023, 10, 26));
+        resignation.setOnNotice(true);
+
+        Resignation updatedResignation = new Resignation();
+        updatedResignation.setEmployeeId(1);
+        updatedResignation.setLastWorkingDay(new Date(2023, 10, 26));
+        updatedResignation.setOnNotice(true);
+
+        when(iresignrepo.findById(1)).thenReturn(java.util.Optional.of(resignation));
+        when(iresignrepo.save(resignation)).thenReturn(updatedResignation);
+
+        Resignation result = resignService.updateUser(resignation);
+        assertEquals(1, result.getEmployeeId());
+        assertEquals(new Date(2023, 10, 26), result.getLastWorkingDay());
+    }
+}
+
